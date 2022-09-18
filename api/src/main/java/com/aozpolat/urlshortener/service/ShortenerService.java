@@ -36,6 +36,10 @@ public class ShortenerService {
        return urlMap.get(url);
     }
 
+    public String transformShortenedUrltoOriginalUrl(String shortenedUrl) {
+        return shortenedUrlMap.get(shortenedUrl);
+    }
+
     public String createToken(String shortenedUrl) {
         String token = "";
         for(int i=0; i<10; i++) {

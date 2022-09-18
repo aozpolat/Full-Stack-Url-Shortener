@@ -22,8 +22,15 @@ public class ShortenerController {
     public ResponseEntity<Response> getUrl(@RequestBody Request url) {
         String shortenedUrl = shortenerService.createShortenedUrl(url.getUrl());
         String token = shortenerService.createToken(shortenedUrl);
-        Response response = new Response("localhost:8080/v/" + shortenedUrl, token);
+        Response response = new Response("localhost:8080/v1/" + shortenedUrl, token);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{shortenedUrl}")
+    public void method(@PathVariable String shortenedUrl,  HttpServletResponse httpServletResponse) {
+
+        httpServletResponse.setHeader("Location", "http://" + shortenerService.transformShortenedUrltoOriginalUrl(shortenedUrl));
+        httpServletResponse.setStatus(302);
     }
 
 }
