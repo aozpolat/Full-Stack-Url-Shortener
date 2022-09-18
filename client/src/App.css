@@ -3,6 +3,9 @@
 
 :root {
   --black: #0d0d0d;
+  --bodyColor: #fa6672;
+  --inputColor: #f0d237;
+  --buttonColor: #d9d9d9;
 }
 * {
   box-sizing: border-box;
@@ -10,7 +13,7 @@
 body {
   margin: 0;
   padding: 0;
-  color: antiquewhite;
+  color: var(--bodyColor);
   background-color: var(--black);
   background-image: url(../background.jpg);
   background-repeat: no-repeat;
@@ -29,12 +32,12 @@ header {
 .input-container {
   margin-top: 5rem;
   background: linear-gradient(
-    190deg,
-    rgba(166, 166, 166, 1) 0%,
-    rgba(13, 13, 13, 1) 100%
+    225deg,
+    rgba(247, 139, 109, 1) 0%,
+    rgba(176, 150, 224, 1) 100%
   );
-  color: #97a69b;
-  padding: 3rem 2rem;
+  color: var(--inputColor);
+  padding: 3rem 3rem;
 
   border-radius: 100px;
   width: 500px;
@@ -61,13 +64,17 @@ header {
   margin: 0 1rem;
   border: none;
   border-radius: 50px;
-  background-color: #d9d9d9;
+  background-color: var(--buttonColor);
 }
 
 .input-container button:hover {
-  background-color: #a6a6a6;
+  background-color: var(--bodyColor);
   color: #f2f2f2;
   cursor: pointer;
+}
+
+img {
+  transform: rotate(-90deg);
 }
 
 @media (max-width=800px) {
