@@ -1,14 +1,17 @@
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { shorten } from "../service/UrlShortenerService";
 import UrlContext from "../urlContext";
 
 const Main = () => {
   const [url, setUrl] = useState("");
-  const [shortenedUrl, setShortenedUrl] = useContext(UrlContext);
+  const navigate = useNavigate();
+  const [, setShortenedUrl] = useContext(UrlContext);
 
   const handleSubmit = async () => {
     const result = await shorten(url);
     setShortenedUrl(result);
+    navigate("/result");
   };
   return (
     <div>
