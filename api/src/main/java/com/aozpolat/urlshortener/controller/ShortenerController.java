@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/v1")
 public class ShortenerController {
@@ -20,7 +21,7 @@ public class ShortenerController {
         this.shortenerService = shortenerService;
     }
 
-    @GetMapping()
+    @PostMapping()
     public ResponseEntity<Response> getUrl(@RequestBody Request url) {
         String shortenedUrl = shortenerService.createShortenedUrl(url.getUrl());
         String token = shortenerService.createToken(shortenedUrl);
