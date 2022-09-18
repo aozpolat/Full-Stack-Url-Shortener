@@ -1,6 +1,8 @@
 package com.aozpolat.urlshortener.controller;
 
 
+import com.aozpolat.urlshortener.exception.ShortenedUrlNotFoundException;
+import com.aozpolat.urlshortener.model.DeleteStatus;
 import com.aozpolat.urlshortener.model.Request;
 import com.aozpolat.urlshortener.model.Response;
 import com.aozpolat.urlshortener.service.ShortenerService;
@@ -28,9 +30,17 @@ public class ShortenerController {
 
     @GetMapping("/{shortenedUrl}")
     public void method(@PathVariable String shortenedUrl,  HttpServletResponse httpServletResponse) {
-
         httpServletResponse.setHeader("Location", "http://" + shortenerService.transformShortenedUrltoOriginalUrl(shortenedUrl));
         httpServletResponse.setStatus(302);
+    }
+
+
+    @DeleteMapping("/{token}")
+    public ResponseEntity deleteUrl(@PathVariable String token) {
+        if(shortenerService.deleteUrl(token) == DeleteStatus.OK) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }

@@ -1,5 +1,8 @@
 package com.aozpolat.urlshortener.service;
 
+import com.aozpolat.urlshortener.exception.ShortenedUrlNotFoundException;
+import com.aozpolat.urlshortener.model.DeleteStatus;
+import com.aozpolat.urlshortener.util.UrlShortenerUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -7,11 +10,18 @@ import java.util.Random;
 
 @Service
 public class ShortenerService {
-    HashMap<String, String> urlMap = new HashMap<>();
-    HashMap<String, String> shortenedUrlMap = new HashMap<>();
-
-    HashMap<String, String> tokenShortenedUrlMap = new HashMap<>();
+    public final UrlShortenerUtil urlShortenerUtil;
+    private final HashMap<String, String> urlMap;
+    private final HashMap<String, String> shortenedUrlMap;
+    private final HashMap<String, String> tokenShortenedUrlMap;
     Random r = new Random();
+
+    public ShortenerService(UrlShortenerUtil urlShortenerUtil) {
+        this.urlShortenerUtil = urlShortenerUtil;
+        this.urlMap = new HashMap<>();
+        this.shortenedUrlMap = new HashMap<>();
+        this.tokenShortenedUrlMap = new HashMap<>();
+    }
 
     public String createShortenedUrl(String url) {
         String shortenedUrl = "";
@@ -37,18 +47,26 @@ public class ShortenerService {
     }
 
     public String transformShortenedUrltoOriginalUrl(String shortenedUrl) {
+        if(!shortenedUrlMap.containsKey(shortenedUrl)) throw new ShortenedUrlNotFoundException("The url that you are looking for is not available right now");
         return shortenedUrlMap.get(shortenedUrl);
     }
 
-    public String createToken(String shortenedUrl) {
-        String token = "";
-        for(int i=0; i<10; i++) {
-            char c = (char)(r.nextInt(26) + 'a');
-            token += c;
-        }
-        tokenShortenedUrlMap.put(token, shortenedUrl);
+    public DeleteStatus deleteUrl(String token) {
+        if(tokenShortenedUrlMap.containsKey(token)) {
+            String shortenedUrl = tokenShortenedUrlMap.get(token);
+            String url = shortenedUrlMap.get(shortenedUrl);
+            shortenedUrlMap.remove(shortenedUrl);
+            urlMap.remove(url);
+            tokenShortenedUrlMap.remove(token);
 
-        return token;
+            return DeleteStatus.OK;
+        }
+        return DeleteStatus.NOT_FOUND;
     }
 
+    public String createToken(String shortenedUrl) {
+        String token = urlShortenerUtil.generateToken();
+        tokenShortenedUrlMap.put(token, shortenedUrl);
+        return token;
+    }
 }
