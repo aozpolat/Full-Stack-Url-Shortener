@@ -9,9 +9,18 @@ const Main = () => {
   const [, setShortenedUrl] = useContext(UrlContext);
 
   const handleSubmit = async () => {
-    const result = await shorten(url);
-    setShortenedUrl(result);
-    navigate("/result");
+    if (url) {
+      const result = await shorten(url);
+      setShortenedUrl(result);
+      setUrl("");
+      navigate("/result");
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && url) {
+      handleSubmit();
+    }
   };
   return (
     <div>
@@ -22,6 +31,7 @@ const Main = () => {
           type="text"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         <button onClick={handleSubmit}>Shorten</button>
       </div>

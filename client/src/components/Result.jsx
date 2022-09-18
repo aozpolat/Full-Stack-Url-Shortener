@@ -1,14 +1,22 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import UrlContext from "../urlContext";
+import Icon from "jsx:../../arrow.svg";
 
 const Result = () => {
+  const [copyText, setCopyText] = useState("Copy");
   const [shortenedUrl] = useContext(UrlContext);
-  const arrow = new URL("../../arrow.svg", import.meta.url);
 
+  const handleClick = () => {
+    navigator.clipboard.writeText(shortenedUrl);
+    setCopyText("Copied");
+  };
   return (
-    <div>
-      <img src={arrow} alt="dsd" />
-      <div>{shortenedUrl}</div>
+    <div className="result">
+      <Icon className="arrow" />
+      <div className="url-container" onClick={handleClick}>
+        <div className="url">{shortenedUrl}</div>
+        <div className="info">{copyText}</div>
+      </div>
     </div>
   );
 };
