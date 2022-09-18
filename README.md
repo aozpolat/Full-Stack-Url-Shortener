@@ -7,6 +7,8 @@ Also, I used hashmaps to keep track of urls and corresponding shortened urls.
  I used React for frontend. [Parcel](https://parceljs.org/) is used as a bundler for the project, [React router](https://reactrouter.com/en/main) is used for routing
  
 ### Backend
-I used Java, Spring Boot for backend.
+I used Java, Spring Boot to create api.
 
 
+## Screenshot
+<img src="./demo/main.PNG" width="250"> <img src="./demo/result.PNG" width="250">
