@@ -8,7 +8,13 @@
   ],
   "rules": {
     "react/prop-types": 0,
-    "react/react-in-jsx-scope": 0
+    "react/react-in-jsx-scope": 0,
+    "import/no-unresolved": [
+      "error",
+      {
+        "ignore": ["*.svg"]
+      }
+    ]
   },
   "plugins": ["react", "import", "jsx-a11y"],
   "parserOptions": {
